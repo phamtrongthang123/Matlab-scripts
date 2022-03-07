@@ -1,6 +1,5 @@
 img = imread('RGBD Data/food_bag_8_1_1.png');
-img_gray = rgb2gray(img);
-importance_map = lab_saliency(img);
+importance_map = importance_computing(img);
 
 % figure, imshow(importance_map);
 

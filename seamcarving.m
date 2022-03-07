@@ -10,14 +10,17 @@ function [o_importance_map,o_image] = seamcarving(importance_map,img,n)
 %       o_importance_map: importance map after removing seam lines
 %       o_image: image after removing seam lines
 %
+
+    
     [~, width] = size(importance_map);
     n = min(width, n);
     for l=1:n
+
+        % STEP 1: compute the directions matrix
         [height, width] = size(importance_map);
         dirs = zeros(height,width) - 2;
         costs = zeros(height,width);
-        costs(height,:) = importance_map(height,:);
-        
+        costs(height,:) = importance_map(height,:);        
         for row = height-1:-1:1
             for col = 1:width
                 triple = [realmax, costs(row+1, col), realmax];
@@ -33,13 +36,15 @@ function [o_importance_map,o_image] = seamcarving(importance_map,img,n)
             end
         end
         
+        % STEP 2: compute the seam line (trace back)
         [~, mincol] = min(costs(1,:));
         seam = zeros(1,height);
         seam(1) = mincol;
         for row=1:height-1
             seam(row+1) = seam(row) + dirs(row,seam(row));
-        end
-        
+        end      
+
+        % STEP 3: remove the seam line
         newimportance_map = zeros(height, width-1);
         newimg = zeros(height, width-1, 3);
         for i=1:height
