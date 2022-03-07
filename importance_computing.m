@@ -1,4 +1,12 @@
 function importance_map = importance_computing(img_gray)
+% IMPORTANCECOMPUTING Naive importance computing algorithm. This will
+% compute the importance map as saliency map, using naive heruistic. I.e
+% the sum of differences in value of the center pixel to its neighbors. 
+% Args: 
+%       img_gray: gray image (height, width)
+% Returns:
+%       importance_map: importance map after computing
+%
     [height, width] = size(img_gray);
     importance_map = zeros(height,width);
     
