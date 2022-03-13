@@ -8,6 +8,10 @@ for indx=1:length(all_depths)
 
     img = imread(img_path);
     depth = imread(depth_path);
+    save_path = fullfile('depth_easy', fn);
+    scalemin = depth - min(depth(:));
+    scalemin = double(scalemin ) * 65535 / double(max(scalemin(:)));
+    imwrite(uint16(scalemin),save_path);
     allsig = 5*5;
     img_results = bilateral_filter_depth(img,depth,5*5,allsig,allsig,allsig);
     %figure, imshow(uint16(img_results), []);
